@@ -1,4 +1,4 @@
-const employees = [
+export const DEFAULT_EMPLOYEES_DATA = [
   {
     id: "aef8d987-1336-4c4b-a009-3c3c393ec8c2",
     firstName: "Lillie",
@@ -341,4 +341,4 @@ const employees = [
   },
 ];
 
-export default employees;
+export default DEFAULT_EMPLOYEES_DATA;
