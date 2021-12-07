@@ -5,11 +5,11 @@ import { EmployeeHierarchicalData } from "../utils/types";
 
 
 export const useEmployeeData = () => {
-  const dataFromLocalStorage = window.localStorage.getItem(LOCAL_STORAGE_KEY) as unknown as EmployeeHierarchicalData[] | undefined;
-  const [employeesData, setEmployeesData] = useState<EmployeeHierarchicalData[]>(dataFromLocalStorage || DEFAULT_EMPLOYEES_DATA);
+  const dataFromLocalStorage = window.localStorage.getItem(LOCAL_STORAGE_KEY) as unknown as string | undefined;
+  const [employeesData, setEmployeesData] = useState<EmployeeHierarchicalData[]>(dataFromLocalStorage ? JSON.parse(dataFromLocalStorage) : DEFAULT_EMPLOYEES_DATA);
 
   const setDataWrapper = (newData:EmployeeHierarchicalData[]) => {
-    window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(DEFAULT_EMPLOYEES_DATA));
+    window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newData));
     setEmployeesData(newData);
   }
 

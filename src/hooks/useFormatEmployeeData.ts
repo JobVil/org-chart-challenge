@@ -18,11 +18,15 @@ const recursiveAddChildren = (
 }
 
 const restructureData = (employeeHierarchicalData: EmployeeHierarchicalData[]):EmployeeHierarchicalDataFormatted => {
+
   const employeeHierarchicalDataByManagerId:EmployeeHierarchicalDataByManagerId = {};
   const orderedManagerIdsByEmployee:OrderedManagerIdsByEmployee = {};
   const employeeHierarchicalDataByEmployeeId:EmployeeHierarchicalDataByEmployeeId = {};
   const employeeHierarchicalTreeNodes:EmployeeHierarchicalTreeNodes[] = [];
-
+  console.log(employeeHierarchicalData);
+  if(!employeeHierarchicalData){
+    return {employeeHierarchicalDataByManagerId, orderedManagerIdsByEmployee, employeeHierarchicalDataByEmployeeId, employeeHierarchicalTreeNodes};
+  }
   employeeHierarchicalData.forEach(data => {
     const managerId = data.manager || NO_DIRECT_MANAGER;
     if(!employeeHierarchicalDataByManagerId[managerId]){
