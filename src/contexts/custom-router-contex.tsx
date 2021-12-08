@@ -1,5 +1,5 @@
 import { createContext, FC } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const CustomRouterContext = createContext<{
   navigateHome: () => void;
@@ -8,6 +8,12 @@ export const CustomRouterContext = createContext<{
 
 type CustomRouterProviderProps = {};
 
+/**
+ * context for to keep track of navigation.
+ *
+ * Note: This wasn't needed in this context but if you wanted some common logic around navigation/tracking events
+ * this context would be useful
+ */
 export const CustomRouterProvider: FC<CustomRouterProviderProps> = (props) => {
   const navigate = useNavigate();
   const navigateHome = () => {

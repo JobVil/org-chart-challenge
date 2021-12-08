@@ -11,7 +11,20 @@ import { Box, Flex } from '@chakra-ui/layout';
 
 type EmployeeHierarchicalType = {};
 
-const recursiveAddChildren = (
+const appendAddEmployeeBtnToTreeBrand = (
+  childNodeLeafs: React.ReactNode[],
+  employeeHierarchicalData: EmployeeHierarchicalData,
+  addEmployee: (newEmployee: EmployeeHierarchicalData) => void,
+) => {
+  childNodeLeafs.push(
+    <TreeNode
+      key={`${employeeHierarchicalData.id}-new-add-btn`}
+      label={<AddEmployeeBtn managerId={employeeHierarchicalData.id} addEmployee={addEmployee} />}
+    />,
+  );
+};
+
+const recursivelyCreateOrgChart = (
   employeeHierarchicalData: EmployeeHierarchicalData,
   employeeHierarchicalDataByManagerId: EmployeeHierarchicalDataByManagerId,
   addEmployee: (newEmployee: EmployeeHierarchicalData) => void,
@@ -20,28 +33,27 @@ const recursiveAddChildren = (
     employeeHierarchicalDataByManagerId[employeeHierarchicalData.id] &&
     employeeHierarchicalDataByManagerId[employeeHierarchicalData.id].length > 0
   ) {
-    const test = employeeHierarchicalDataByManagerId[employeeHierarchicalData.id].map((data) => {
-      return recursiveAddChildren(data, employeeHierarchicalDataByManagerId, addEmployee);
-    });
-    test.push(
-      <TreeNode
-        key={`${employeeHierarchicalData.id}-new-add-btn`}
-        label={<AddEmployeeBtn managerId={employeeHierarchicalData.id} addEmployee={addEmployee} />}
-      />,
+    const childNodeLeafs = employeeHierarchicalDataByManagerId[employeeHierarchicalData.id].map(
+      (data) => {
+        return recursivelyCreateOrgChart(data, employeeHierarchicalDataByManagerId, addEmployee);
+      },
     );
+    appendAddEmployeeBtnToTreeBrand(childNodeLeafs, employeeHierarchicalData, addEmployee);
+
+    // if we do not have a manager then we are the root of the tree
     return employeeHierarchicalData.manager ? (
       <TreeNode
         key={employeeHierarchicalData.id}
         label={<EmployeeAccording employeeHierarchicalData={employeeHierarchicalData} />}
       >
-        {test}
+        {childNodeLeafs}
       </TreeNode>
     ) : (
       <Tree
         key={employeeHierarchicalData.id}
         label={<EmployeeAccording employeeHierarchicalData={employeeHierarchicalData} />}
       >
-        {test}
+        {childNodeLeafs}
       </Tree>
     );
   } else {
@@ -61,6 +73,9 @@ const recursiveAddChildren = (
   }
 };
 
+/**
+ * displays the Org Chart
+ */
 export const EmployeeHierarchical: FC<EmployeeHierarchicalType> = (props) => {
   const rawEmployeeData = useEmployeeData();
   const formattedData = useFormateEmployeeData(rawEmployeeData.data);
@@ -72,7 +87,7 @@ export const EmployeeHierarchical: FC<EmployeeHierarchicalType> = (props) => {
   return (
     <Box maxW={'90vw'}>
       {rootNodes.map((rootNode) => {
-        return recursiveAddChildren(
+        return recursivelyCreateOrgChart(
           rootNode,
           formattedData.employeeHierarchicalDataByManagerId,
           rawEmployeeData.addEmployee,

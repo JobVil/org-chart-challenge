@@ -8,13 +8,12 @@ export type EmployeeHierarchicalData = {
   address: string,
   manager: null | string
 }
-export type EmployeeHierarchicalTreeNodes = EmployeeHierarchicalData & { children?: EmployeeHierarchicalTreeNodes[] }
+
 export type EmployeeHierarchicalDataByManagerId = {[key in string]: EmployeeHierarchicalData[]};
-export type OrderedManagerIdsByEmployee = {[key in string]: string[]};
+export type OrderedManagerIdsByEmployeeId = {[key in string]: string[]};
 export type EmployeeHierarchicalDataByEmployeeId = {[key in string]: EmployeeHierarchicalData};
 export type EmployeeHierarchicalDataFormatted = {
   employeeHierarchicalDataByManagerId: EmployeeHierarchicalDataByManagerId,
-  orderedManagerIdsByEmployee: OrderedManagerIdsByEmployee,
+  orderedManagerIdsByEmployeeId: OrderedManagerIdsByEmployeeId,
   employeeHierarchicalDataByEmployeeId:EmployeeHierarchicalDataByEmployeeId,
-  employeeHierarchicalTreeNodes: EmployeeHierarchicalTreeNodes[]
 }

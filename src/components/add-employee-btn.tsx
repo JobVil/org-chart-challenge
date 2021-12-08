@@ -4,7 +4,6 @@ import { IconButton } from '@chakra-ui/button';
 import { AddIcon } from '@chakra-ui/icons';
 import {
   useDisclosure,
-  Box,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -13,13 +12,9 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-  AccordionPanel,
-  Flex,
-  Stack,
 } from '@chakra-ui/react';
 import { FC, useRef, useState } from 'react';
 import { EmployeeHierarchicalData } from '../utils/types';
-import { InputWithCopy } from './input-with-copy';
 import { v4 as uuidv4 } from 'uuid';
 import { EmployeeInformationInputs } from './employee-information-inputs';
 
@@ -28,7 +23,10 @@ type AddEmployeeBtnProps = {
   addEmployee: (newEmployee: EmployeeHierarchicalData) => void;
 };
 
-export const AddEmployeeBtn: FC<AddEmployeeBtnProps> = (props) => {
+/**
+ * triggers a modal to add a new employee to tree
+ */
+export const AddEmployeeBtn: FC<AddEmployeeBtnProps> = ({ managerId, addEmployee }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [employeeInfo, setEmployeeInfo] = useState<EmployeeHierarchicalData>({
     id: uuidv4(),
@@ -38,12 +36,13 @@ export const AddEmployeeBtn: FC<AddEmployeeBtnProps> = (props) => {
     email: '',
     phone: '',
     address: '',
-    manager: props.managerId,
+    manager: managerId,
   });
   const finalRef = useRef(null);
 
-  const addEmployee = () => {
-    props.addEmployee(employeeInfo);
+  const onAddEmployeeClicked = () => {
+    addEmployee(employeeInfo);
+    // resets modal information because modal doesn't remount
     setEmployeeInfo({
       id: uuidv4(),
       firstName: '',
@@ -52,14 +51,14 @@ export const AddEmployeeBtn: FC<AddEmployeeBtnProps> = (props) => {
       email: '',
       phone: '',
       address: '',
-      manager: props.managerId,
+      manager: managerId,
     });
     onClose();
   };
 
   return (
     <>
-      <IconButton aria-label="Add Employees" icon={<AddIcon />} onClick={onOpen} />
+      <IconButton aria-label={'Add Employees'} icon={<AddIcon />} onClick={onOpen} />
       <Modal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -69,10 +68,10 @@ export const AddEmployeeBtn: FC<AddEmployeeBtnProps> = (props) => {
             <EmployeeInformationInputs setEmployeeInfo={setEmployeeInfo} isReadOnly={false} />
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={addEmployee}>
-              Add member
+            <Button colorScheme={'blue'} mr={3} onClick={onAddEmployeeClicked}>
+              Add Employee
             </Button>
-            <Button variant="ghost" onClick={onClose}>
+            <Button variant={'ghost'} onClick={onClose}>
               Close
             </Button>
           </ModalFooter>

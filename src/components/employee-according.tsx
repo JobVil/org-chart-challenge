@@ -11,14 +11,14 @@ import { EmployeeHierarchicalData } from '../utils/types';
 import { Button, Text } from '@chakra-ui/react';
 import { InputWithCopy } from './input-with-copy';
 import { CustomRouterContext } from '../contexts/custom-router-contex';
+import { getEmployeeName } from '../utils/util-function';
 
 type EmployeeAccordingProps = {
   employeeHierarchicalData: EmployeeHierarchicalData;
 };
 
-export const EmployeeAccording: FC<EmployeeAccordingProps> = (props) => {
+export const EmployeeAccording: FC<EmployeeAccordingProps> = ({ employeeHierarchicalData }) => {
   const { navigateToEmployee } = useContext(CustomRouterContext);
-  const { employeeHierarchicalData } = props;
 
   return (
     <Box>
@@ -27,8 +27,8 @@ export const EmployeeAccording: FC<EmployeeAccordingProps> = (props) => {
           <AccordionItem>
             <h2>
               <AccordionButton>
-                <Box flex="1" textAlign="center">
-                  {`${employeeHierarchicalData.firstName} ${employeeHierarchicalData.lastName}`}
+                <Box flex={'1'} textAlign={'center'}>
+                  {getEmployeeName(employeeHierarchicalData)}
                 </Box>
                 <AccordionIcon />
               </AccordionButton>
@@ -37,7 +37,7 @@ export const EmployeeAccording: FC<EmployeeAccordingProps> = (props) => {
               <Flex flexDirection={'column'}>
                 <Stack spacing={4}>
                   <Box>
-                    <Text fontSize="sm" textAlign="center">
+                    <Text fontSize={'sm'} textAlign={'center'}>
                       {employeeHierarchicalData.company}
                     </Text>
                   </Box>

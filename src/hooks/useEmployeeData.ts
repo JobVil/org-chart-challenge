@@ -3,7 +3,13 @@ import DEFAULT_EMPLOYEES_DATA from "../data/employees";
 import { LOCAL_STORAGE_KEY } from "../utils/constants"
 import { EmployeeHierarchicalData } from "../utils/types";
 
-
+/**
+ * Client for the employeeData. First we will check if their is data already saved in browser, if so
+ * we will grab it, else we will load the default employee data into local storage. The data is then
+ * mapped to state, exposing helper function to ensure local storage & state stays synced up.
+ * 
+ * Since I we do not have a thunk or dataStore this hook can get out of synced if used incorrectly.
+ */
 export const useEmployeeData = () => {
   const dataFromLocalStorage = window.localStorage.getItem(LOCAL_STORAGE_KEY) as unknown as string | undefined;
   const [employeesData, setEmployeesData] = useState<EmployeeHierarchicalData[]>(dataFromLocalStorage ? JSON.parse(dataFromLocalStorage) : DEFAULT_EMPLOYEES_DATA);
@@ -34,5 +40,5 @@ export const useEmployeeData = () => {
     setDataWrapper(newEmployeeData);
   }
 
-  return {data: employeesData , setDataWrapper, addEmployee, editEmployee, removeEmployee}
+  return {data: employeesData , setEmployeesData: setDataWrapper, addEmployee, editEmployee, removeEmployee}
 }
