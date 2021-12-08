@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import DEFAULT_EMPLOYEES_DATA from "../data/employees";
 import { LOCAL_STORAGE_KEY } from "../utils/constants"
 import { EmployeeHierarchicalData } from "../utils/types";
@@ -14,22 +14,22 @@ export const useEmployeeData = () => {
   const dataFromLocalStorage = window.localStorage.getItem(LOCAL_STORAGE_KEY) as unknown as string | undefined;
   const [employeesData, setEmployeesData] = useState<EmployeeHierarchicalData[]>(dataFromLocalStorage ? JSON.parse(dataFromLocalStorage) : DEFAULT_EMPLOYEES_DATA);
 
-  const setDataWrapper = (newData:EmployeeHierarchicalData[]) => {
+  const setDataWrapper = useCallback((newData:EmployeeHierarchicalData[]) => {
     window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newData));
     setEmployeesData(newData);
-  }
+  },[]);
 
-  const addEmployee = (newEmployee:EmployeeHierarchicalData) => {
+  const addEmployee = useCallback((newEmployee:EmployeeHierarchicalData) => {
     const newData = [...employeesData, newEmployee];
     setDataWrapper(newData);
-  }
+  },[employeesData, setDataWrapper])
 
-  const removeEmployee = (id:string) => {
+  const removeEmployee = useCallback((id:string) => {
     const newEmployeeData = employeesData.filter(employeeData => employeeData.id !== id);
     setDataWrapper(newEmployeeData);
-  }
+  },[employeesData, setDataWrapper])
 
-  const editEmployee = (newEmployeeInformation: EmployeeHierarchicalData) => {
+  const editEmployee = useCallback((newEmployeeInformation: EmployeeHierarchicalData) => {
     const newEmployeeData = employeesData.map(employeeData => {
       if(employeeData.id === newEmployeeInformation.id){
         return newEmployeeInformation;
@@ -38,7 +38,7 @@ export const useEmployeeData = () => {
       return employeeData;
     });
     setDataWrapper(newEmployeeData);
-  }
+  },[employeesData, setDataWrapper]);
 
   return {data: employeesData , setEmployeesData: setDataWrapper, addEmployee, editEmployee, removeEmployee}
 }
