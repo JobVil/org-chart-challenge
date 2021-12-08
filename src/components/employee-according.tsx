@@ -6,22 +6,24 @@ import {
   AccordionPanel,
 } from '@chakra-ui/accordion';
 import { Box, Flex, Stack } from '@chakra-ui/layout';
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import { EmployeeHierarchicalData } from '../utils/types';
-import { Text } from '@chakra-ui/react';
+import { Button, Text } from '@chakra-ui/react';
 import { InputWithCopy } from './input-with-copy';
+import { CustomRouterContext } from '../contexts/custom-router-contex';
 
 type EmployeeAccordingProps = {
   employeeHierarchicalData: EmployeeHierarchicalData;
 };
 
 export const EmployeeAccording: FC<EmployeeAccordingProps> = (props) => {
+  const { navigateToEmployee } = useContext(CustomRouterContext);
   const { employeeHierarchicalData } = props;
 
   return (
     <Box>
       <Flex justifyContent={'center'}>
-        <Accordion allowToggle w={'fit-content'}>
+        <Accordion allowToggle w={'fit-content'} border={'1px solid #CDCDCD'} borderRadius={'5px'}>
           <AccordionItem>
             <h2>
               <AccordionButton>
@@ -57,6 +59,9 @@ export const EmployeeAccording: FC<EmployeeAccordingProps> = (props) => {
                       isReadOnly: true,
                     }}
                   />
+                  <Button onClick={() => navigateToEmployee(employeeHierarchicalData.id)}>
+                    View Employee
+                  </Button>
                 </Stack>
               </Flex>
             </AccordionPanel>

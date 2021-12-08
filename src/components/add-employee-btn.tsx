@@ -21,7 +21,7 @@ import { FC, useRef, useState } from 'react';
 import { EmployeeHierarchicalData } from '../utils/types';
 import { InputWithCopy } from './input-with-copy';
 import { v4 as uuidv4 } from 'uuid';
-import { AddEmployeeModalBody } from './add-employee-modal-body';
+import { EmployeeInformationInputs } from './employee-information-inputs';
 
 type AddEmployeeBtnProps = {
   managerId: string;
@@ -34,7 +34,7 @@ export const AddEmployeeBtn: FC<AddEmployeeBtnProps> = (props) => {
     id: uuidv4(),
     firstName: '',
     lastName: '',
-    company: '',
+    company: 'MidFirst Bank',
     email: '',
     phone: '',
     address: '',
@@ -48,7 +48,7 @@ export const AddEmployeeBtn: FC<AddEmployeeBtnProps> = (props) => {
       id: uuidv4(),
       firstName: '',
       lastName: '',
-      company: '',
+      company: 'MidFirst Bank',
       email: '',
       phone: '',
       address: '',
@@ -66,7 +66,7 @@ export const AddEmployeeBtn: FC<AddEmployeeBtnProps> = (props) => {
           <ModalHeader>Modal Title</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <AddEmployeeModalBody setEmployeeInfo={setEmployeeInfo} />
+            <EmployeeInformationInputs setEmployeeInfo={setEmployeeInfo} isReadOnly={false} />
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={addEmployee}>

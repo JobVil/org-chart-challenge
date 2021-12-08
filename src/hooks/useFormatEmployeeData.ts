@@ -23,7 +23,7 @@ const restructureData = (employeeHierarchicalData: EmployeeHierarchicalData[]):E
   const orderedManagerIdsByEmployee:OrderedManagerIdsByEmployee = {};
   const employeeHierarchicalDataByEmployeeId:EmployeeHierarchicalDataByEmployeeId = {};
   const employeeHierarchicalTreeNodes:EmployeeHierarchicalTreeNodes[] = [];
-  console.log(employeeHierarchicalData);
+
   if(!employeeHierarchicalData){
     return {employeeHierarchicalDataByManagerId, orderedManagerIdsByEmployee, employeeHierarchicalDataByEmployeeId, employeeHierarchicalTreeNodes};
   }
@@ -42,7 +42,7 @@ const restructureData = (employeeHierarchicalData: EmployeeHierarchicalData[]):E
     while(manager) {
       const managerData = employeeHierarchicalDataByEmployeeId[manager];
       orderedManagerIdsByEmployee[data.id].push(manager);
-      manager = managerData.manager;
+      manager = managerData?.manager;
     }
   });
 

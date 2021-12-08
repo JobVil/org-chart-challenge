@@ -7,6 +7,7 @@ import { Tree, TreeNode } from 'react-organizational-chart';
 import { NO_DIRECT_MANAGER } from '../utils/constants';
 import { EmployeeHierarchicalData, EmployeeHierarchicalDataByManagerId } from '../utils/types';
 import { AddEmployeeBtn } from '../components/add-employee-btn';
+import { Box, Flex } from '@chakra-ui/layout';
 
 type EmployeeHierarchicalType = {};
 
@@ -69,7 +70,7 @@ export const EmployeeHierarchical: FC<EmployeeHierarchicalType> = (props) => {
   }
 
   return (
-    <>
+    <Box maxW={'90vw'}>
       {rootNodes.map((rootNode) => {
         return recursiveAddChildren(
           rootNode,
@@ -77,6 +78,6 @@ export const EmployeeHierarchical: FC<EmployeeHierarchicalType> = (props) => {
           rawEmployeeData.addEmployee,
         );
       })}
-    </>
+    </Box>
   );
 };

@@ -23,5 +23,16 @@ export const useEmployeeData = () => {
     setDataWrapper(newEmployeeData);
   }
 
-  return {data: employeesData , setDataWrapper, addEmployee, removeEmployee}
+  const editEmployee = (newEmployeeInformation: EmployeeHierarchicalData) => {
+    const newEmployeeData = employeesData.map(employeeData => {
+      if(employeeData.id === newEmployeeInformation.id){
+        return newEmployeeInformation;
+      }
+
+      return employeeData;
+    });
+    setDataWrapper(newEmployeeData);
+  }
+
+  return {data: employeesData , setDataWrapper, addEmployee, editEmployee, removeEmployee}
 }
